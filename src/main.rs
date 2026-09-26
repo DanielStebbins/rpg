@@ -1,9 +1,13 @@
 use bevy::prelude::*;
 
+use crate::player::spawn_player;
+
+mod player;
+
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_systems(Startup, setup)
+        .add_systems(Startup, (setup, spawn_player).chain())
         .run();
 }
 
