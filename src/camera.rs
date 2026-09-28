@@ -3,7 +3,7 @@ use bevy::{prelude::*, window::PrimaryWindow};
 
 use crate::{
     background::{HALF_BACKGROUND_HEIGHT, HALF_BACKGROUND_WIDTH},
-    player::Player,
+    characters::player::Player,
 };
 
 pub fn spawn_camera(mut commands: Commands) {
