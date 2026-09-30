@@ -1,10 +1,8 @@
 use bevy::input::mouse::MouseWheel;
 use bevy::{prelude::*, window::PrimaryWindow};
 
-use crate::{
-    background::{HALF_BACKGROUND_HEIGHT, HALF_BACKGROUND_WIDTH},
-    characters::player::Player,
-};
+use crate::characters::player::Player;
+use crate::world::background::{HALF_BACKGROUND_HEIGHT, HALF_BACKGROUND_WIDTH};
 
 pub fn spawn_camera(mut commands: Commands) {
     commands.spawn(Camera2d);
