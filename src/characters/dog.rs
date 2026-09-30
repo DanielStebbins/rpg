@@ -1,12 +1,13 @@
 use bevy::prelude::*;
 
-use crate::characters::{Velocity, follows_player::FollowsPlayer};
+use crate::characters::{Character, Velocity, follows_player::FollowsPlayer};
 
 #[derive(Component)]
 pub struct Dog;
 
 pub fn spawn_dog(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((
+        Character,
         Dog,
         FollowsPlayer {
             outer_radius: 1000.0,

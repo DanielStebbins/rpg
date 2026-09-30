@@ -6,6 +6,9 @@ pub mod player;
 pub mod status_effects;
 
 #[derive(Component, Default)]
+pub struct Character;
+
+#[derive(Component, Default)]
 pub struct Velocity(Vec2);
 
 pub fn apply_velocity(time: Res<Time>, mut q_character: Query<(&mut Transform, &Velocity)>) {

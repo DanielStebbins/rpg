@@ -1,12 +1,13 @@
 use bevy::prelude::*;
 
-use crate::characters::Velocity;
+use crate::characters::{Character, Velocity};
 
 #[derive(Component)]
 pub struct Player;
 
 pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((
+        Character,
         Player,
         Sprite::from_image(asset_server.load("sprites/player.png")),
         Transform::from_xyz(0.0, 0.0, 100.0),

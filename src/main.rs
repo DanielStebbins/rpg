@@ -9,7 +9,10 @@ use crate::{
         player::{player_movement, spawn_player},
         status_effects::apply_wading,
     },
-    world::{background::spawn_background, water::spawn_lake},
+    world::{
+        background::spawn_background,
+        water::{set_wading, spawn_lakes},
+    },
 };
 
 mod camera;
@@ -23,7 +26,7 @@ fn main() {
             Startup,
             (
                 spawn_background,
-                spawn_lake,
+                spawn_lakes,
                 spawn_player,
                 spawn_dog,
                 spawn_camera,
@@ -34,6 +37,7 @@ fn main() {
             Update,
             (
                 camera_zoom,
+                set_wading,
                 player_movement,
                 follow_player,
                 apply_wading,
