@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::characters::follows_player::FollowsPlayer;
+use crate::characters::{Velocity, follows_player::FollowsPlayer};
 
 #[derive(Component)]
 pub struct Dog;
@@ -14,6 +14,7 @@ pub fn spawn_dog(mut commands: Commands, asset_server: Res<AssetServer>) {
             speed: 175.0,
         },
         Sprite::from_image(asset_server.load("sprites/dog.png")),
+        Velocity::default(),
         Transform::from_xyz(-30.0, 0.0, 1.0),
     ));
 }

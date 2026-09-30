@@ -10,7 +10,7 @@ pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
         Player,
         Sprite::from_image(asset_server.load("sprites/player.png")),
         Transform::from_xyz(0.0, 0.0, 100.0),
-        Velocity(Vec2::new(0.0, 0.0)),
+        Velocity::default(),
     ));
 }
 
