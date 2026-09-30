@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 enum WaterDepth {
     Shallow,
-    Deep,
+    // Deep,
 }
 
 #[derive(Component)]
