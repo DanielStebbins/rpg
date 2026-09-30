@@ -3,6 +3,7 @@ use bevy::prelude::*;
 pub mod dog;
 pub mod follows_player;
 pub mod player;
+pub mod status_effects;
 
 #[derive(Component, Default)]
 pub struct Velocity(Vec2);

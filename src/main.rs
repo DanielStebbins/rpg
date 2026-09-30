@@ -7,6 +7,7 @@ use crate::{
         dog::spawn_dog,
         follows_player::follow_player,
         player::{player_movement, spawn_player},
+        status_effects::apply_wading,
     },
     world::{background::spawn_background, water::spawn_lake},
 };
@@ -35,6 +36,7 @@ fn main() {
                 camera_zoom,
                 player_movement,
                 follow_player,
+                apply_wading,
                 apply_velocity,
                 camera_follow_player,
             )
