@@ -7,6 +7,7 @@ use crate::{
         dog::spawn_dog,
         follows_player::follow_player,
         player::{player_movement, spawn_player},
+        positions_to_transforms,
         status_effects::apply_wading,
     },
     world::{
@@ -42,6 +43,7 @@ fn main() {
                 follow_player,
                 apply_wading,
                 apply_velocity,
+                positions_to_transforms,
                 camera_follow_player,
             )
                 .chain(),

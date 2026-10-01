@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::characters::{Velocity, player::Player};
+use crate::characters::{Position, Velocity, player::Player};
 
 #[derive(Component)]
 pub struct FollowsPlayer {
@@ -10,18 +10,18 @@ pub struct FollowsPlayer {
 }
 
 pub fn follow_player(
-    mut q_followers: Query<(&FollowsPlayer, &Transform, &mut Velocity), Without<Player>>,
-    player_transform: Single<&Transform, With<Player>>,
+    mut q_followers: Query<(&FollowsPlayer, &Position, &mut Velocity), Without<Player>>,
+    player_position: Single<&Position, With<Player>>,
 ) {
-    let player_position = player_transform.translation.truncate();
-    for (follower, follower_transform, mut follower_velocity) in q_followers.iter_mut() {
-        let follower_position = follower_transform.translation.truncate();
-        let distance = follower_position.distance(player_position);
+    let player_position_2d = player_position.0.truncate();
+    for (follower, follower_position, mut follower_velocity) in q_followers.iter_mut() {
+        let follower_position_2d = follower_position.0.truncate();
+        let distance = follower_position_2d.distance(player_position_2d);
         let mut delta = Vec2::ZERO;
         if follower.inner_radius < distance && distance < follower.outer_radius {
-            let direction = (player_position - follower_position).normalize_or_zero();
+            let direction = (player_position_2d - follower_position_2d).normalize_or_zero();
             delta = direction * follower.speed;
         }
-        follower_velocity.0 = follower_velocity.0.lerp(delta, 0.5);
+        follower_velocity.0 = follower_velocity.0.lerp(delta.extend(0.0), 0.5);
     }
 }
