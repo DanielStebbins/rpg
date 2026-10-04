@@ -5,6 +5,7 @@ use crate::{
     characters::{
         apply_velocity,
         dog::spawn_dog,
+        flower::spawn_flowers,
         follows_player::follow_player,
         player::{player_movement, spawn_player},
         positions_to_transforms,
@@ -28,6 +29,7 @@ fn main() {
             (
                 spawn_background,
                 spawn_lakes,
+                spawn_flowers,
                 spawn_player,
                 spawn_dog,
                 spawn_camera,

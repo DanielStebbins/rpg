@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 pub mod dog;
+pub mod flower;
 pub mod follows_player;
 pub mod player;
 pub mod status_effects;
@@ -39,7 +40,7 @@ pub fn positions_to_transforms(mut commands: Commands, q_characters: Query<(Enti
         let translation = Vec3::new(
             character_position.0.x,
             scaled_y - scaled_z,
-            500.0 - (scaled_y - scaled_z) * 0.01, // Prevents characters from disappearing behind the background.
+            500.0 + scaled_z * 0.01,
         );
         commands
             .entity(character_entity)

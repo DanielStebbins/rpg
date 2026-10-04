@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, sprite::Anchor};
 
 use crate::characters::{Character, Position, Velocity, follows_player::FollowsPlayer};
 
@@ -15,6 +15,7 @@ pub fn spawn_dog(mut commands: Commands, asset_server: Res<AssetServer>) {
             speed: 175.0,
         },
         Sprite::from_image(asset_server.load("sprites/dog.png")),
+        Anchor::BOTTOM_CENTER,
         Position(Vec3::new(-30.0, 0.0, 0.0)),
         Velocity::default(),
     ));

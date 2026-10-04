@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, sprite::Anchor};
 
 use crate::characters::{Character, Position, Velocity};
 
@@ -10,6 +10,7 @@ pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
         Character,
         Player,
         Sprite::from_image(asset_server.load("sprites/player.png")),
+        Anchor::BOTTOM_CENTER,
         Position::default(),
         Velocity::default(),
     ));
