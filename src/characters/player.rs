@@ -21,10 +21,10 @@ pub fn player_movement(
 ) {
     let mut direction = Vec3::ZERO;
     if keyboard_input.pressed(KeyCode::KeyW) {
-        direction.y += 1.0;
+        direction.z -= 1.0;
     }
     if keyboard_input.pressed(KeyCode::KeyS) {
-        direction.y -= 1.0;
+        direction.z += 1.0;
     }
     if keyboard_input.pressed(KeyCode::KeyA) {
         direction.x -= 1.0;
@@ -33,7 +33,7 @@ pub fn player_movement(
         direction.x += 1.0;
     }
     if keyboard_input.pressed(KeyCode::Space) {
-        direction.z += 1.0;
+        direction.y += 1.0;
     }
     let delta = direction.normalize_or_zero() * 200.0;
     player_velocity.0 = player_velocity.0.lerp(delta, 0.5);
