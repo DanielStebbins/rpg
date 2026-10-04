@@ -9,10 +9,16 @@ pub fn spawn_camera(mut commands: Commands) {
 }
 
 pub fn camera_follow_player(
-    player_transform: Single<&Transform, With<Player>>,
+    player: Single<(&Transform, &Sprite), With<Player>>,
     camera: Single<(&mut Transform, &Projection), (With<Camera2d>, Without<Player>)>,
     window: Single<&Window, With<PrimaryWindow>>,
+    images: Res<Assets<Image>>,
 ) {
+    let (player_transform, player_sprite) = player.into_inner();
+    let Some(player_sprite_image) = images.get(&player_sprite.image) else {
+        panic!("Player sprite should have an image");
+    };
+    let player_sprite_height = player_sprite_image.size_f32().y;
     let (mut camera_transform, camera_projection) = camera.into_inner();
     let Projection::Orthographic(ref projection) = *camera_projection else {
         panic!("Camera projection should be orthographic");
@@ -24,12 +30,13 @@ pub fn camera_follow_player(
     {
         camera_transform.translation.x = player_x;
     }
-    let player_y = player_transform.translation.y;
+    // Camera should focus on the middle of the player's sprite, not their feet.
+    let player_y = player_transform.translation.y + player_sprite_height * 0.5;
     let half_window_height = (window.height() / 2.0) * projection.scale;
     if player_y - half_window_height > -HALF_BACKGROUND_HEIGHT
         && player_y + half_window_height < HALF_BACKGROUND_HEIGHT
     {
-        camera_transform.translation.y = player_transform.translation.y;
+        camera_transform.translation.y = player_y;
     }
 }
 

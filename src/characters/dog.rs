@@ -11,7 +11,7 @@ pub fn spawn_dog(mut commands: Commands, asset_server: Res<AssetServer>) {
         Dog,
         FollowsPlayer {
             outer_radius: 1000.0,
-            inner_radius: 20.0,
+            inner_radius: 30.0,
             speed: 175.0,
         },
         Sprite::from_image(asset_server.load("sprites/dog.png")),
