@@ -53,7 +53,7 @@ pub fn player_movement(
     player_velocity.0 = player_velocity.0.lerp(delta, 0.5);
 }
 
-pub fn pick_up(
+pub fn player_held(
     mouse_input: Res<ButtonInput<MouseButton>>,
     hover_map: Res<HoverMap>,
     player_entity: Single<Entity, With<Player>>,

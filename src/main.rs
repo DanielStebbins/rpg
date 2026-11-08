@@ -8,7 +8,7 @@ use crate::{
         dog::spawn_dog,
         flower::spawn_flowers,
         follows_player::follow_player,
-        player::{pick_up, player_movement, spawn_player},
+        player::{player_held, player_movement, spawn_player},
         positions_to_transforms,
         status_effects::apply_wading,
     },
@@ -53,7 +53,7 @@ fn main() {
                 apply_wading,
                 apply_velocity,
                 positions_to_transforms,
-                pick_up,
+                player_held,
                 camera_follow_player,
             )
                 .chain(),
