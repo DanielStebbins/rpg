@@ -33,14 +33,21 @@ pub fn apply_velocity(time: Res<Time>, mut q_characters: Query<(&mut Position, &
     }
 }
 
-pub fn positions_to_transforms(mut commands: Commands, q_characters: Query<(Entity, &Position)>) {
-    for (character_entity, character_position) in q_characters.iter() {
+pub fn positions_to_transforms(
+    mut commands: Commands,
+    q_characters: Query<(Entity, &Position, Option<&ChildOf>), Changed<Position>>,
+) {
+    for (character_entity, character_position, maybe_character_child_of) in q_characters.iter() {
+        let z_offset = match maybe_character_child_of {
+            Some(_) => 0.0,
+            None => 500.0,
+        };
         let scaled_y = character_position.0.y * Y_SCALE;
         let scaled_z = character_position.0.z * Z_SCALE;
         let translation = Vec3::new(
             character_position.0.x,
             scaled_y - scaled_z,
-            500.0 + scaled_z * 0.01,
+            z_offset + scaled_z * 0.01,
         );
         commands
             .entity(character_entity)
