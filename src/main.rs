@@ -1,4 +1,5 @@
-use bevy::prelude::*;
+use bevy::{picking::PickingSettings, prelude::*};
+use bevy_inspector_egui::{bevy_egui::EguiPlugin, quick::WorldInspectorPlugin};
 
 use crate::{
     camera::{camera_follow_player, camera_zoom, spawn_camera},
@@ -7,7 +8,7 @@ use crate::{
         dog::spawn_dog,
         flower::spawn_flowers,
         follows_player::follow_player,
-        player::{player_movement, spawn_player},
+        player::{pick_up, player_movement, spawn_player},
         positions_to_transforms,
         status_effects::apply_wading,
     },
@@ -24,6 +25,12 @@ mod world;
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
+        .add_plugins(EguiPlugin::default())
+        .add_plugins(WorldInspectorPlugin::new())
+        .insert_resource(PickingSettings {
+            is_window_picking_enabled: false,
+            ..default()
+        })
         .add_systems(
             Startup,
             (
@@ -46,6 +53,7 @@ fn main() {
                 apply_wading,
                 apply_velocity,
                 positions_to_transforms,
+                pick_up,
                 camera_follow_player,
             )
                 .chain(),

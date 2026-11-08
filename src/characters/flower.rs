@@ -19,6 +19,7 @@ pub fn spawn_flowers(mut commands: Commands, asset_server: Res<AssetServer>) {
             Sprite::from_image(asset_server.load("sprites/flower.png")),
             Anchor::BOTTOM_CENTER,
             Position(*position),
+            Pickable::default(),
         ));
     }
 }
