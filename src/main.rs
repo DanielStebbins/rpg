@@ -4,7 +4,7 @@ use bevy_inspector_egui::{bevy_egui::EguiPlugin, quick::WorldInspectorPlugin};
 use crate::{
     camera::{camera_follow_player, camera_zoom, spawn_camera},
     characters::{
-        apply_velocity,
+        Position, apply_velocity,
         dog::spawn_dog,
         flower::spawn_flowers,
         follows_player::follow_player,
@@ -31,6 +31,7 @@ fn main() {
             is_window_picking_enabled: false,
             ..default()
         })
+        .register_type::<Position>()
         .add_systems(
             Startup,
             (
@@ -52,8 +53,8 @@ fn main() {
                 follow_player,
                 apply_wading,
                 apply_velocity,
-                positions_to_transforms,
                 player_held,
+                positions_to_transforms,
                 camera_follow_player,
             )
                 .chain(),

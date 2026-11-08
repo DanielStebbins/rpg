@@ -16,7 +16,7 @@ const Y_SCALE: f32 = 0.70710678; // Cosine of the angle.
 #[derive(Component)]
 pub struct Character;
 
-#[derive(Component, Default)]
+#[derive(Component, Default, Reflect)]
 pub struct Position(Vec3);
 
 #[derive(Component, Default)]
