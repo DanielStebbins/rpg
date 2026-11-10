@@ -2,9 +2,10 @@ use bevy::{
     picking::{hover::HoverMap, pointer::PointerId},
     prelude::*,
     sprite::Anchor,
+    window::PrimaryWindow,
 };
 
-use crate::characters::{Character, Position, Velocity};
+use crate::characters::{Character, Position, Velocity, translation_to_position};
 
 #[derive(Component)]
 pub struct Player;
@@ -57,40 +58,74 @@ pub fn player_held(
     mouse_input: Res<ButtonInput<MouseButton>>,
     hover_map: Res<HoverMap>,
     player_entity: Single<Entity, With<Player>>,
+    maybe_left_hand_entity: Option<Single<Entity, (With<Held>, With<InPlayerLeftHand>)>>,
+    maybe_right_hand_entity: Option<Single<Entity, (With<Held>, With<InPlayerRightHand>)>>,
+    window: Single<&Window, With<PrimaryWindow>>,
+    camera_query: Single<(&Camera, &GlobalTransform)>,
     mut commands: Commands,
 ) {
     if mouse_input.just_pressed(MouseButton::Left) {
-        let Some(hovered) = hover_map.get(&PointerId::Mouse) else {
-            return;
-        };
-        let Some(front_hovered) = hovered.iter().nth(0) else {
-            return;
-        };
-        let front_hovered_entity = *front_hovered.0;
-        commands
-            .entity(*player_entity)
-            .add_child(front_hovered_entity);
-        commands.entity(front_hovered_entity).insert((
-            Position(Vec3::new(5.0, 14.0, 0.0)),
-            Held,
-            InPlayerLeftHand,
-        ));
+        if let Some(left_hand_entity) = maybe_left_hand_entity {
+            if let Some(cursor_position) = window.cursor_position() {
+                let (camera, camera_transform) = *camera_query;
+                if let Ok(cursor_translation) =
+                    camera.viewport_to_world_2d(camera_transform, cursor_position)
+                {
+                    let position = translation_to_position(&cursor_translation.extend(0.0));
+                    commands
+                        .entity(*left_hand_entity)
+                        .remove::<(ChildOf, Held, InPlayerLeftHand)>()
+                        .insert(position);
+                }
+            }
+        } else {
+            let Some(hovered) = hover_map.get(&PointerId::Mouse) else {
+                return;
+            };
+            let Some(front_hovered) = hovered.iter().nth(0) else {
+                return;
+            };
+            let front_hovered_entity = *front_hovered.0;
+            commands
+                .entity(*player_entity)
+                .add_child(front_hovered_entity);
+            commands.entity(front_hovered_entity).insert((
+                Position(Vec3::new(5.0, 14.0, 0.0)),
+                Held,
+                InPlayerLeftHand,
+            ));
+        }
     }
     if mouse_input.just_pressed(MouseButton::Right) {
-        let Some(hovered) = hover_map.get(&PointerId::Mouse) else {
-            return;
-        };
-        let Some(front_hovered) = hovered.iter().nth(0) else {
-            return;
-        };
-        let front_hovered_entity = *front_hovered.0;
-        commands
-            .entity(*player_entity)
-            .add_child(front_hovered_entity);
-        commands.entity(front_hovered_entity).insert((
-            Position(Vec3::new(-7.5, 14.0, 0.0)),
-            Held,
-            InPlayerRightHand,
-        ));
+        if let Some(right_hand_entity) = maybe_right_hand_entity {
+            if let Some(cursor_position) = window.cursor_position() {
+                let (camera, camera_transform) = *camera_query;
+                if let Ok(cursor_translation) =
+                    camera.viewport_to_world_2d(camera_transform, cursor_position)
+                {
+                    let position = translation_to_position(&cursor_translation.extend(0.0));
+                    commands
+                        .entity(*right_hand_entity)
+                        .remove::<(ChildOf, Held, InPlayerRightHand)>()
+                        .insert(position);
+                }
+            }
+        } else {
+            let Some(hovered) = hover_map.get(&PointerId::Mouse) else {
+                return;
+            };
+            let Some(front_hovered) = hovered.iter().nth(0) else {
+                return;
+            };
+            let front_hovered_entity = *front_hovered.0;
+            commands
+                .entity(*player_entity)
+                .add_child(front_hovered_entity);
+            commands.entity(front_hovered_entity).insert((
+                Position(Vec3::new(-7.5, 14.0, 0.0)),
+                Held,
+                InPlayerRightHand,
+            ));
+        }
     }
 }
